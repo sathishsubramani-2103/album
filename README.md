@@ -67,10 +67,10 @@ To get started with the Album app, follow these steps:
 ## Screenshots
 
 ### Home Screen
-![Home Screen](assets/home-screen.png)
+![Home Screen](src\assets\album-screen.png)
 
 ### Album Details
-![Album Details](assets/album-screen.png)
+![Album Details](src\assets/album-screen.png)
 
 ## Offline Mode
 
