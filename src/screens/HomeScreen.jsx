@@ -2,16 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { View, FlatList, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { fetchAlbums } from '../services/fetch-albums';
 import { saveAlbumsToCache, getCachedAlbums } from '../storage/cache';
+import NetInfo from '@react-native-community/netinfo';
 
 export const HomeScreen = ({ navigation }) => {
   const [albums, setAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const loadAlbums = async () => {
+    setLoading(true);
+    const netInfo = await NetInfo.fetch();
+    const isOnline = netInfo.isConnected && netInfo.isInternetReachable;
+
     try {
-      const data = await fetchAlbums();
-      setAlbums(data);
-      await saveAlbumsToCache(data);
+      if (isOnline) {
+        const data = await fetchAlbums();
+        setAlbums(data);
+        await saveAlbumsToCache(data);
+      } else {
+        const cached = await getCachedAlbums();
+        setAlbums(cached);
+      }
     } catch (error) {
       const cached = await getCachedAlbums();
       setAlbums(cached);
